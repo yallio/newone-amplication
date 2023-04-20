@@ -27,6 +27,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  nats:
+    image: nats:2.9.15
+    networks:
+      - internal
+    ports:
+      - 4222:4222
+      - 8222:8222
   db:
     image: postgres:12
     ports:
@@ -44,5 +51,9 @@ services:
       timeout: 45s
       interval: 10s
       retries: 10
+networks:
+  internal:
+    name: internal
+    driver: bridge
 volumes:
   postgres: ~
